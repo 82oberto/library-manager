@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/librarydb
+    username: postgres
+    password: psql8586
+  security:
+    user:
+      name: user
+      password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
