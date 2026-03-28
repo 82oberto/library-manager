@@ -12,6 +12,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class InsertBooksResult {
-    private List<Book> saved;
-    private List<Book> duplicates;
+    private List<BookResponse> saved;
+    private List<BookResponse> duplicates;
 }

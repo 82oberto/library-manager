@@ -1,8 +1,12 @@
 package com.roberto.library_manager.command;
 
+import com.roberto.library_manager.model.BookResponse;
 import com.roberto.library_manager.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+
 /**
  * Command handler for deleting a book.
  * Validates input and delegates to {@link BookService}.

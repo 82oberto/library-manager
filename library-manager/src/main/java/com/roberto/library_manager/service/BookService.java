@@ -2,6 +2,8 @@ package com.roberto.library_manager.service;
 
 import com.roberto.library_manager.exception.BookNotFoundException;
 import com.roberto.library_manager.model.Book;
+import com.roberto.library_manager.model.BookMapper;
+import com.roberto.library_manager.model.BookResponse;
 import com.roberto.library_manager.model.InsertBooksResult;
 import com.roberto.library_manager.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import java.util.List;
 public class BookService {
 
     private final BookRepository repository;
+    private final BookMapper mapper;
 
     public InsertBooksResult insertBooks(List<Book> books) {
         List<Book> toSave = new ArrayList<>();
@@ -34,11 +37,13 @@ public class BookService {
         }
 
         List<Book> saved = repository.saveAll(toSave);
-        return new InsertBooksResult(saved, duplicates);
+        return new InsertBooksResult(
+                mapper.toResponseList(saved),
+                mapper.toResponseList(duplicates));
     }
 
-    public List<Book> getAllBooks(){
-        return repository.findAll();
+        public List<BookResponse> getAllBooks(){
+        return mapper.toResponseList(repository.findAll());
     }
 
     public void deleteOne(Long id) {
@@ -51,7 +56,7 @@ public class BookService {
         repository.deleteAll();
     }
 
-    public Book updateBook(Long id, Book book) {
+    public BookResponse updateBook(Long id, Book book) {
         Book existing = repository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException(id));
 
@@ -61,6 +66,6 @@ public class BookService {
         existing.setYear(book.getYear());
         existing.setGenre(book.getGenre());
 
-        return repository.save(existing);
+        return mapper.toResponse(repository.save(existing));
     }
 }
