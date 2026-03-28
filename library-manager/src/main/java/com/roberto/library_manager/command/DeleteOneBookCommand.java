@@ -6,11 +6,19 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class DeleteOneBookCommand {
+public class DeleteOneBookCommand extends GlobalCommand<Long, Void> {
 
     private final BookService bookService;
 
-    public void doExecute(Long id) {
+    @Override
+    public Void doExecute(Long id) {
         bookService.deleteOne(id);
+        return null;
     }
+
+    @Override
+    protected boolean canExecute(Long id) {
+        return id != null && id > 0;
+    }
+
 }

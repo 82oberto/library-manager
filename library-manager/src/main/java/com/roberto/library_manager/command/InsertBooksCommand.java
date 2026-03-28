@@ -11,12 +11,18 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class InsertBooksCommand {
+public class InsertBooksCommand extends GlobalCommand<List<Book>, InsertBooksResult> {
 
 
     private final BookService bookService;
 
+    @Override
     public InsertBooksResult doExecute(List<Book> books) {
         return bookService.insertBooks(books);
+    }
+
+    @Override
+    protected boolean canExecute(List<Book> books) {
+        return books != null && !books.isEmpty();
     }
 }

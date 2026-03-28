@@ -9,12 +9,18 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class GetAllBooksCommand {
+public class GetAllBooksCommand extends GlobalCommand<Void, List<Book>> {
 
     private final BookService bookService;
 
-    public List<Book> doExecute(){
+    @Override
+    public List<Book> doExecute(Void input){
         return bookService.getAllBooks();
+    }
+
+    @Override
+    protected boolean canExecute(Void input) {
+        return true;
     }
 
 }
