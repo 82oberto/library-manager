@@ -1,22 +1,17 @@
 package com.roberto.library_manager.command;
 
 import com.roberto.library_manager.model.Book;
-import com.roberto.library_manager.model.InsertBooksResult;
 import com.roberto.library_manager.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
-
 @Component
 @RequiredArgsConstructor
-public class InsertBooksCommand {
-
+public class UpdateBookCommand {
 
     private final BookService bookService;
 
-    public InsertBooksResult doExecute(List<Book> books) {
-        return bookService.insertBooks(books);
+    public Book doExecute(Long id, Book book) {
+        return bookService.updateBook(id, book);
     }
 }

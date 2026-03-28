@@ -2,6 +2,7 @@ package com.roberto.library_manager.controller;
 
 import com.roberto.library_manager.command.*;
 import com.roberto.library_manager.model.Book;
+import com.roberto.library_manager.model.InsertBooksResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +25,8 @@ public class BookController {
 
 
     @PostMapping
-    public ResponseEntity<List<Book>> insertBooks(@RequestBody List<Book> books){
-        List<Book> booksResult = insertBooksCommand.doExecute(books);
+    public ResponseEntity<InsertBooksResult> insertBooks(@RequestBody List<Book> books){
+        InsertBooksResult booksResult = insertBooksCommand.doExecute(books);
         return ResponseEntity.ok(booksResult);
     }
 

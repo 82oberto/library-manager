@@ -1,4 +1,4 @@
-package com.roberto.library_manager;
+package com.roberto.library_manager.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

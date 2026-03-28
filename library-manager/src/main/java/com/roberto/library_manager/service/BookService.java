@@ -1,10 +1,13 @@
 package com.roberto.library_manager.service;
 
+import com.roberto.library_manager.exception.BookNotFoundException;
 import com.roberto.library_manager.model.Book;
+import com.roberto.library_manager.model.InsertBooksResult;
 import com.roberto.library_manager.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -14,8 +17,20 @@ public class BookService {
 
     private final BookRepository repository;
 
-    public List<Book> insertBooks(List<Book> books){
-        return repository.saveAll(books);
+    public InsertBooksResult insertBooks(List<Book> books) {
+        List<Book> toSave = new ArrayList<>();
+        List<Book> duplicates = new ArrayList<>();
+
+        for (Book book : books) {
+            if (book.getIsbn() != null && repository.findByIsbn(book.getIsbn()).isPresent()) {
+                duplicates.add(book);
+            } else {
+                toSave.add(book);
+            }
+        }
+
+        List<Book> saved = repository.saveAll(toSave);
+        return new InsertBooksResult(saved, duplicates);
     }
 
     public List<Book> getAllBooks(){
@@ -23,7 +38,9 @@ public class BookService {
     }
 
     public void deleteOne(Long id) {
-        repository.deleteById(id);
+        Book existing = repository.findById(id)
+                .orElseThrow(() -> new BookNotFoundException(id));
+        repository.delete(existing);;
     }
 
     public void deleteAll() {
@@ -32,7 +49,7 @@ public class BookService {
 
     public Book updateBook(Long id, Book book) {
         Book existing = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Book not found with id: " + id));
+                .orElseThrow(() -> new BookNotFoundException(id));
 
         existing.setTitle(book.getTitle());
         existing.setAuthor(book.getAuthor());
