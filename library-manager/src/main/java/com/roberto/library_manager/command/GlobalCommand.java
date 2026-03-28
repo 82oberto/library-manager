@@ -3,6 +3,13 @@ package com.roberto.library_manager.command;
 import com.roberto.library_manager.exception.InputException;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Abstract base class for all command handlers.
+ * Provides logging, input validation via canExecute and execution via doExecute.
+ *
+ * @param <I> the input type
+ * @param <O> the output type
+ */
 @Slf4j
 public abstract class GlobalCommand<I, O> {
 

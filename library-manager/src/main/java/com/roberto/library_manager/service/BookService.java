@@ -10,6 +10,10 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service layer for book business logic.
+ * Handles insertion with duplicate ISBN detection, retrieval, update and deletion.
+ */
 
 @Service
 @RequiredArgsConstructor

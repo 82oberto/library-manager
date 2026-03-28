@@ -9,6 +9,10 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Command handler for updating a book.
+ * Validates input and delegates to {@link BookService}.
+ */
 @Component
 @RequiredArgsConstructor
 public class UpdateBookCommand extends GlobalCommand<Map.Entry<Long, Book>, Book>{

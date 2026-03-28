@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * Command handler for inserting a list of books.
+ * Validates input and delegates to {@link BookService}.
+ */
 
 @Component
 @RequiredArgsConstructor

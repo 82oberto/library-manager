@@ -7,6 +7,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * Command handler for retrieving the entire list of books.
+ * Validates input and delegates to {@link BookService}.
+ */
 @Component
 @RequiredArgsConstructor
 public class GetAllBooksCommand extends GlobalCommand<Void, List<Book>> {

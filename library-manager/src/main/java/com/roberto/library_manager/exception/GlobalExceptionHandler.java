@@ -1,10 +1,12 @@
 package com.roberto.library_manager.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.MessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.stream.Collectors;
@@ -23,6 +25,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleInputException(InputException ex) {
         log.error("Input exception: {}", ex.getMessage());
         return ResponseEntity.status(400).body(new ErrorResponse(400, ex.getMessage()));
+    }
+    @ExceptionHandler(HandlerMethodValidationException.class)
+    public ResponseEntity<ErrorResponse> handleHandlerMethodValidation(HandlerMethodValidationException ex) {
+        String message = ex.getAllErrors().stream()
+                .map(MessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.joining(", "));
+        log.error("Validation exception: {}", message);
+        return ResponseEntity.status(400).body(new ErrorResponse(400, message));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
