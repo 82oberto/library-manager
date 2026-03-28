@@ -7,6 +7,8 @@ import com.roberto.library_manager.model.BookResponse;
 import com.roberto.library_manager.model.InsertBooksResult;
 import com.roberto.library_manager.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -42,8 +44,8 @@ public class BookService {
                 mapper.toResponseList(duplicates));
     }
 
-        public List<BookResponse> getAllBooks(){
-        return mapper.toResponseList(repository.findAll());
+        public Page<BookResponse> getAllBooks(Pageable pageable){
+        return repository.findAll(pageable).map(mapper::toResponse);
     }
 
     public void deleteOne(Long id) {

@@ -4,6 +4,8 @@ import com.roberto.library_manager.model.Book;
 import com.roberto.library_manager.model.BookResponse;
 import com.roberto.library_manager.service.BookService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,17 +16,17 @@ import java.util.List;
  */
 @Component
 @RequiredArgsConstructor
-public class GetAllBooksCommand extends GlobalCommand<Void, List<BookResponse>> {
+public class GetAllBooksCommand extends GlobalCommand<Pageable, Page<BookResponse>> {
 
     private final BookService bookService;
 
     @Override
-    public List<BookResponse> doExecute(Void input){
-        return bookService.getAllBooks();
+    public Page<BookResponse> doExecute(Pageable pageable){
+        return bookService.getAllBooks(pageable);
     }
 
     @Override
-    protected boolean canExecute(Void input) {
+    protected boolean canExecute(Pageable pageable) {
         return true;
     }
 
