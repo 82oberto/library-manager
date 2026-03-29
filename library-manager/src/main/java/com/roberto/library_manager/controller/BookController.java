@@ -3,6 +3,7 @@ package com.roberto.library_manager.controller;
 import com.roberto.library_manager.command.*;
 import com.roberto.library_manager.model.Book;
 import com.roberto.library_manager.model.BookResponse;
+import com.roberto.library_manager.model.EnrichBookRequest;
 import com.roberto.library_manager.model.InsertBooksResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -31,6 +32,7 @@ public class BookController {
     private final DeleteOneBookCommand deleteOneCommand;
     private final DeleteAllBooksCommand deleteAllCommand;
     private final UpdateBookCommand updateBookCommand;
+    private final EnrichBookCommand enrichBookCommand;
 
 
 
@@ -88,5 +90,16 @@ public class BookController {
     public ResponseEntity<Void> deleteAll() {
         deleteAllCommand.execute(null);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Enrich a book", description = "Finds book details from Open Library by title and author and save it.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Book enriched successfully"),
+            @ApiResponse(responseCode = "404", description = "Book not found on Open Library")
+    })
+    @PostMapping("/enrich")
+    public ResponseEntity<BookResponse> enrichBook(@Valid @RequestBody EnrichBookRequest request) {
+        BookResponse book = enrichBookCommand.execute(Map.entry(request.getTitle(), request.getAuthor()));
+        return ResponseEntity.ok(book);
     }
 }
