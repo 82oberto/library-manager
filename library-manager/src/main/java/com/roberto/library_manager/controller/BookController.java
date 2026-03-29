@@ -1,10 +1,10 @@
 package com.roberto.library_manager.controller;
 
 import com.roberto.library_manager.command.*;
-import com.roberto.library_manager.model.Book;
-import com.roberto.library_manager.model.BookResponse;
-import com.roberto.library_manager.model.EnrichBookRequest;
-import com.roberto.library_manager.model.InsertBooksResult;
+import com.roberto.library_manager.model.book.Book;
+import com.roberto.library_manager.model.book.BookResponse;
+import com.roberto.library_manager.model.book.EnrichBookRequest;
+import com.roberto.library_manager.model.book.InsertBooksResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

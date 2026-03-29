@@ -1,4 +1,4 @@
-package com.roberto.library_manager.model;
+package com.roberto.library_manager.model.book;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

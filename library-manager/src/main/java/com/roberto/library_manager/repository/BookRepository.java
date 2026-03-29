@@ -1,13 +1,10 @@
 package com.roberto.library_manager.repository;
 
-import com.roberto.library_manager.model.Book;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import com.roberto.library_manager.model.book.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 
-import java.util.List;
 import java.util.Optional;
 /**
  * JPA repository for {@link Book} entity.

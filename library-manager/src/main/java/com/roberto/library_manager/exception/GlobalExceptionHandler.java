@@ -18,12 +18,20 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BookNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleBookNotFound(BookNotFoundException ex) {
         ErrorResponse error = new ErrorResponse(404, ex.getMessage());
+        printRow(ex);
         return ResponseEntity.status(404).body(error);
     }
-
+    @ExceptionHandler(BookNotFoundExternallyException.class)
+    public ResponseEntity<ErrorResponse> handleBookNotFoundExternally(BookNotFoundExternallyException ex) {
+        ErrorResponse error = new ErrorResponse(404, ex.getMessage());
+        printRow(ex);
+        return ResponseEntity.status(404).body(error);
+    }
     @ExceptionHandler(InputException.class)
     public ResponseEntity<ErrorResponse> handleInputException(InputException ex) {
         log.error("Input exception: {}", ex.getMessage());
+        StackTraceElement origin = ex.getStackTrace()[0];
+        printRow(ex);
         return ResponseEntity.status(400).body(new ErrorResponse(400, ex.getMessage()));
     }
     @ExceptionHandler(HandlerMethodValidationException.class)
@@ -32,6 +40,8 @@ public class GlobalExceptionHandler {
                 .map(MessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.joining(", "));
         log.error("Validation exception: {}", message);
+        StackTraceElement origin = ex.getStackTrace()[0];
+        printRow(ex);
         return ResponseEntity.status(400).body(new ErrorResponse(400, message));
     }
 
@@ -40,6 +50,7 @@ public class GlobalExceptionHandler {
         String message = ex.getBindingResult().getFieldErrors().stream()
                 .map(e -> e.getField() + ": " + e.getDefaultMessage())
                 .collect(Collectors.joining(", "));
+        printRow(ex);
         return ResponseEntity.status(400).body(new ErrorResponse(400, message));
     }
 
@@ -47,7 +58,16 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleGeneric(Exception ex) {
         log.error("Unhandled exception on {}: {}", ex.getClass().getName(), ex.getMessage());
         ErrorResponse error = new ErrorResponse(500, "Internal server error");
+        printRow(ex);
         return ResponseEntity.status(500).body(error);
+    }
+
+    private void printRow(Exception ex){
+        StackTraceElement origin = ex.getStackTrace()[0];
+        log.error("Exception thrown at: {}.{}() line {}",
+                origin.getClassName(),
+                origin.getMethodName(),
+                origin.getLineNumber());
     }
 
 }

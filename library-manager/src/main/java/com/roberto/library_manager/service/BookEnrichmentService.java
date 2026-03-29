@@ -1,10 +1,10 @@
 package com.roberto.library_manager.service;
 
-import com.roberto.library_manager.exception.BookNotFoundException;
-import com.roberto.library_manager.model.Book;
-import com.roberto.library_manager.model.BookMapper;
-import com.roberto.library_manager.model.BookResponse;
-import com.roberto.library_manager.model.OpenLibraryResponse;
+import com.roberto.library_manager.exception.BookNotFoundExternallyException;
+import com.roberto.library_manager.model.book.Book;
+import com.roberto.library_manager.model.book.BookMapper;
+import com.roberto.library_manager.model.book.BookResponse;
+import com.roberto.library_manager.model.book.OpenLibraryResponse;
 import com.roberto.library_manager.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +36,7 @@ public class BookEnrichmentService {
         log.info("response: {}", response);
 
         if (response == null || response.getDocs() == null || response.getDocs().isEmpty()) {
-            throw new BookNotFoundException("No book found for title: " + title + " and author: " + author);
+            throw new BookNotFoundExternallyException("No book found for title: " + title + " and author: " + author);
         }
 
         OpenLibraryResponse.OpenLibraryBook found = response.getDocs().getFirst();

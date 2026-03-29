@@ -1,10 +1,10 @@
 package com.roberto.library_manager.service;
 
 import com.roberto.library_manager.exception.BookNotFoundException;
-import com.roberto.library_manager.model.Book;
-import com.roberto.library_manager.model.BookMapper;
-import com.roberto.library_manager.model.BookResponse;
-import com.roberto.library_manager.model.InsertBooksResult;
+import com.roberto.library_manager.model.book.Book;
+import com.roberto.library_manager.model.book.BookMapper;
+import com.roberto.library_manager.model.book.BookResponse;
+import com.roberto.library_manager.model.book.InsertBooksResult;
 import com.roberto.library_manager.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

@@ -1,4 +1,4 @@
-package com.roberto.library_manager.model;
+package com.roberto.library_manager.model.book;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;

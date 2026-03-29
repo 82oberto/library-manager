@@ -1,10 +1,7 @@
 package com.roberto.library_manager.command;
 
 import com.roberto.library_manager.exception.InputException;
-import com.roberto.library_manager.model.BookResponse;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.List;
 
 /**
  * Abstract base class for all command handlers.

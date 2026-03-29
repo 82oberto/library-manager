@@ -1,8 +1,7 @@
-package com.roberto.library_manager.model;
+package com.roberto.library_manager.model.book;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
