@@ -1,5 +1,6 @@
-package com.roberto.library_manager.command;
+package com.roberto.library_manager.command.book;
 
+import com.roberto.library_manager.command.GlobalCommand;
 import com.roberto.library_manager.model.book.Book;
 import com.roberto.library_manager.model.book.InsertBooksResult;
 import com.roberto.library_manager.service.BookService;
@@ -22,7 +23,7 @@ public class InsertBooksCommand extends GlobalCommand<List<Book>, InsertBooksRes
 
     @Override
     public InsertBooksResult doExecute(List<Book> books) {
-        return bookService.insertBooks(books);
+        return bookService.save(books);
     }
 
     @Override

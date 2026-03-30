@@ -26,7 +26,7 @@ public class BookService {
     private final BookRepository repository;
     private final BookMapper mapper;
 
-    public InsertBooksResult insertBooks(List<Book> books) {
+    public InsertBooksResult save(List<Book> books) {
         List<Book> toSave = new ArrayList<>();
         List<Book> duplicates = new ArrayList<>();
 
@@ -44,7 +44,7 @@ public class BookService {
                 mapper.toResponseList(duplicates));
     }
 
-        public Page<BookResponse> getAllBooks(Pageable pageable){
+    public Page<BookResponse> getAll(Pageable pageable){
         return repository.findAll(pageable).map(mapper::toResponse);
     }
 
@@ -58,7 +58,7 @@ public class BookService {
         repository.deleteAll();
     }
 
-    public BookResponse updateBook(Long id, Book book) {
+    public BookResponse update(Long id, Book book) {
         Book existing = repository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException(id));
 

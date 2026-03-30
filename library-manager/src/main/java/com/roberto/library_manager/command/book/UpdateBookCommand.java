@@ -1,5 +1,6 @@
-package com.roberto.library_manager.command;
+package com.roberto.library_manager.command.book;
 
+import com.roberto.library_manager.command.GlobalCommand;
 import com.roberto.library_manager.model.book.Book;
 import com.roberto.library_manager.model.book.BookResponse;
 import com.roberto.library_manager.service.BookService;
@@ -14,14 +15,14 @@ import java.util.Map;
  */
 @Component
 @RequiredArgsConstructor
-public class UpdateBookCommand extends GlobalCommand<Map.Entry<Long, Book>, BookResponse>{
+public class UpdateBookCommand extends GlobalCommand<Map.Entry<Long, Book>, BookResponse> {
 
     private final BookService bookService;
 
     @Override
     public BookResponse doExecute(Map.Entry<Long, Book> input) {
 
-        return bookService.updateBook(input.getKey(), input.getValue());
+        return bookService.update(input.getKey(), input.getValue());
     }
 
     @Override

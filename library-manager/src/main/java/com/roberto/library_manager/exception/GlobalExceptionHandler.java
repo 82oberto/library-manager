@@ -21,6 +21,12 @@ public class GlobalExceptionHandler {
         printRow(ex);
         return ResponseEntity.status(404).body(error);
     }
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFound(UserNotFoundException ex) {
+        ErrorResponse error = new ErrorResponse(404, ex.getMessage());
+        printRow(ex);
+        return ResponseEntity.status(404).body(error);
+    }
     @ExceptionHandler(BookNotFoundExternallyException.class)
     public ResponseEntity<ErrorResponse> handleBookNotFoundExternally(BookNotFoundExternallyException ex) {
         ErrorResponse error = new ErrorResponse(404, ex.getMessage());

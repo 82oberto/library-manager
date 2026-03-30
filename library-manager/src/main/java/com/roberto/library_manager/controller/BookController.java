@@ -1,6 +1,6 @@
 package com.roberto.library_manager.controller;
 
-import com.roberto.library_manager.command.*;
+import com.roberto.library_manager.command.book.*;
 import com.roberto.library_manager.model.book.Book;
 import com.roberto.library_manager.model.book.BookResponse;
 import com.roberto.library_manager.model.book.EnrichBookRequest;

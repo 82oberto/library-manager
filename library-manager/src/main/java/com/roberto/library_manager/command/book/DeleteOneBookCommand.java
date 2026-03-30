@@ -1,5 +1,6 @@
-package com.roberto.library_manager.command;
+package com.roberto.library_manager.command.book;
 
+import com.roberto.library_manager.command.GlobalCommand;
 import com.roberto.library_manager.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

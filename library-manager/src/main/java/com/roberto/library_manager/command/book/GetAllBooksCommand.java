@@ -1,5 +1,6 @@
-package com.roberto.library_manager.command;
+package com.roberto.library_manager.command.book;
 
+import com.roberto.library_manager.command.GlobalCommand;
 import com.roberto.library_manager.model.book.BookResponse;
 import com.roberto.library_manager.service.BookService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class GetAllBooksCommand extends GlobalCommand<Pageable, Page<BookRespons
 
     @Override
     public Page<BookResponse> doExecute(Pageable pageable){
-        return bookService.getAllBooks(pageable);
+        return bookService.getAll(pageable);
     }
 
     @Override
