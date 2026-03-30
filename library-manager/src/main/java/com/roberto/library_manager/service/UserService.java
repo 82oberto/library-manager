@@ -1,13 +1,11 @@
 package com.roberto.library_manager.service;
 
 import com.roberto.library_manager.exception.UserNotFoundException;
-import com.roberto.library_manager.model.user.User;
-import com.roberto.library_manager.model.user.UserMapper;
-import com.roberto.library_manager.model.user.UserRequest;
-import com.roberto.library_manager.model.user.UserResponse;
+import com.roberto.library_manager.model.user.*;
 import com.roberto.library_manager.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,25 +18,23 @@ public class UserService {
 
     private final UserRepository repository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public UserResponse save(UserRequest request) {
-        return userMapper.toResponse(repository.save(userMapper.toEntity(request)));
-    }
-
-    public void delete(String email) {
-        repository.deleteByEmail(email);
+        User user = userMapper.toEntity(request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(request.getRole() != null ? request.getRole() : Role.USER);
+        return userMapper.toResponse(repository.save(user));
     }
 
     public UserResponse update(String email, UserRequest request) {
-        Optional<User> existingUser = repository.findByEmail(email);
-        if (existingUser.isEmpty()) {
-            throw new UserNotFoundException(email);
-        }
-        User user = existingUser.get();
+        User user = repository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException(email));
+
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
-        user.setRole(request.getRole());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(request.getRole() != null ? request.getRole() : Role.USER);
 
         return userMapper.toResponse(repository.save(user));
     }
@@ -48,11 +44,14 @@ public class UserService {
     }
 
     public UserResponse getOne(String email) {
-        Optional<User> user = repository.findByEmail(email);
-        if (user.isEmpty()) {
-            throw new UserNotFoundException(email);
-        }
-        return userMapper.toResponse(user.get());
+        return userMapper.toResponse(repository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException(email)));
+    }
+
+    public void delete(String email) {
+        repository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException(email));
+        repository.deleteByEmail(email);
     }
 
     public void deleteAll() {
