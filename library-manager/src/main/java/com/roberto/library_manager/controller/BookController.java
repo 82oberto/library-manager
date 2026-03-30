@@ -1,7 +1,7 @@
 package com.roberto.library_manager.controller;
 
 import com.roberto.library_manager.command.book.*;
-import com.roberto.library_manager.model.book.Book;
+import com.roberto.library_manager.model.book.BookRequest;
 import com.roberto.library_manager.model.book.BookResponse;
 import com.roberto.library_manager.model.book.EnrichBookRequest;
 import com.roberto.library_manager.model.book.InsertBooksResult;
@@ -27,14 +27,13 @@ import java.util.Map;
 @RequestMapping("/api/books")
 @RequiredArgsConstructor
 public class BookController {
+
     private final InsertBooksCommand insertBooksCommand;
     private final GetAllBooksCommand getAllBooksCommand;
     private final DeleteOneBookCommand deleteOneCommand;
     private final DeleteAllBooksCommand deleteAllCommand;
     private final UpdateBookCommand updateBookCommand;
     private final EnrichBookCommand enrichBookCommand;
-
-
 
     @Operation(
             summary = "Insert a list of books",
@@ -45,7 +44,7 @@ public class BookController {
             @ApiResponse(responseCode = "400", description = "Invalid input data")
     })
     @PostMapping
-    public ResponseEntity<InsertBooksResult> insertBooks(@Valid @RequestBody List<Book> books){
+    public ResponseEntity<InsertBooksResult> insertBooks(@Valid @RequestBody List<BookRequest> books) {
         InsertBooksResult booksResult = insertBooksCommand.execute(books);
         return ResponseEntity.ok(booksResult);
     }
@@ -55,7 +54,7 @@ public class BookController {
     @GetMapping
     public ResponseEntity<Page<BookResponse>> getAllBooks(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size){
+            @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<BookResponse> books = getAllBooksCommand.execute(pageable);
         return ResponseEntity.ok(books);
@@ -67,9 +66,8 @@ public class BookController {
             @ApiResponse(responseCode = "404", description = "Book not found")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<BookResponse> updateBook(@PathVariable Long id, @Valid @RequestBody Book book) {
-        Map.Entry<Long, Book> input = Map.entry(id, book);
-        BookResponse updated = updateBookCommand.execute(input);
+    public ResponseEntity<BookResponse> updateBook(@PathVariable Long id, @Valid @RequestBody BookRequest book) {
+        BookResponse updated = updateBookCommand.execute(Map.entry(id, book));
         return ResponseEntity.ok(updated);
     }
 

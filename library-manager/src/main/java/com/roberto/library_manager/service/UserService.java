@@ -3,6 +3,7 @@ package com.roberto.library_manager.service;
 import com.roberto.library_manager.exception.UserNotFoundException;
 import com.roberto.library_manager.model.user.User;
 import com.roberto.library_manager.model.user.UserMapper;
+import com.roberto.library_manager.model.user.UserRequest;
 import com.roberto.library_manager.model.user.UserResponse;
 import com.roberto.library_manager.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,24 +21,26 @@ public class UserService {
     private final UserRepository repository;
     private final UserMapper userMapper;
 
-    public UserResponse save(User user) {
-        return userMapper.toResponse(repository.save(user));
+    public UserResponse save(UserRequest request) {
+        return userMapper.toResponse(repository.save(userMapper.toEntity(request)));
     }
 
     public void delete(String email) {
         repository.deleteByEmail(email);
     }
 
-    public UserResponse update(String email, User user) {
+    public UserResponse update(String email, UserRequest request) {
         Optional<User> existingUser = repository.findByEmail(email);
         if (existingUser.isEmpty()) {
             throw new UserNotFoundException(email);
         }
-        existingUser.get().setUsername(user.getUsername());
-        existingUser.get().setEmail(user.getEmail());
-        existingUser.get().setPassword(user.getPassword());
+        User user = existingUser.get();
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+        user.setRole(request.getRole());
 
-        return userMapper.toResponse(repository.save(existingUser.get()));
+        return userMapper.toResponse(repository.save(user));
     }
 
     public List<UserResponse> getAll() {

@@ -18,6 +18,16 @@ public class BookMapper {
         );
     }
 
+    public Book toEntity(BookRequest request) {
+        Book book = new Book();
+        book.setTitle(request.getTitle());
+        book.setAuthor(request.getAuthor());
+        book.setIsbn(request.getIsbn());
+        book.setYear(request.getYear());
+        book.setGenre(request.getGenre());
+        return book;
+    }
+
     public List<BookResponse> toResponseList(List<Book> books) {
         return books.stream()
                 .map(this::toResponse)

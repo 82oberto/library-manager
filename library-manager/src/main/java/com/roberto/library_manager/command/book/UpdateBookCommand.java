@@ -1,7 +1,7 @@
 package com.roberto.library_manager.command.book;
 
 import com.roberto.library_manager.command.GlobalCommand;
-import com.roberto.library_manager.model.book.Book;
+import com.roberto.library_manager.model.book.BookRequest;
 import com.roberto.library_manager.model.book.BookResponse;
 import com.roberto.library_manager.service.BookService;
 import lombok.RequiredArgsConstructor;
@@ -15,18 +15,17 @@ import java.util.Map;
  */
 @Component
 @RequiredArgsConstructor
-public class UpdateBookCommand extends GlobalCommand<Map.Entry<Long, Book>, BookResponse> {
+public class UpdateBookCommand extends GlobalCommand<Map.Entry<Long, BookRequest>, BookResponse> {
 
     private final BookService bookService;
 
     @Override
-    public BookResponse doExecute(Map.Entry<Long, Book> input) {
-
+    public BookResponse doExecute(Map.Entry<Long, BookRequest> input) {
         return bookService.update(input.getKey(), input.getValue());
     }
 
     @Override
-    protected boolean canExecute(Map.Entry<Long, Book> input) {
+    protected boolean canExecute(Map.Entry<Long, BookRequest> input) {
         return input != null && input.getKey() != null && input.getKey() > 0 && input.getValue() != null;
     }
 }

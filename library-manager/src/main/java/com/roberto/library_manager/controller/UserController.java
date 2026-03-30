@@ -1,7 +1,7 @@
 package com.roberto.library_manager.controller;
 
 import com.roberto.library_manager.command.user.*;
-import com.roberto.library_manager.model.user.User;
+import com.roberto.library_manager.model.user.UserRequest;
 import com.roberto.library_manager.model.user.UserResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -40,14 +40,14 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponse> insertUser(@Valid @RequestBody User user) {
-        UserResponse savedUser = insertUserCommand.execute(user);
+    public ResponseEntity<UserResponse> insertUser(@Valid @RequestBody UserRequest request) {
+        UserResponse savedUser = insertUserCommand.execute(request);
         return ResponseEntity.ok(savedUser);
     }
 
     @PutMapping("/{email}")
-    public ResponseEntity<UserResponse> updateUser(@PathVariable String email, @Valid @RequestBody User user) {
-        UserResponse updatedUser = updateUserCommand.execute(Map.entry(email, user));
+    public ResponseEntity<UserResponse> updateUser(@PathVariable String email, @Valid @RequestBody UserRequest request) {
+        UserResponse updatedUser = updateUserCommand.execute(Map.entry(email, request));
         return ResponseEntity.ok(updatedUser);
     }
 

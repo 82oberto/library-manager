@@ -19,6 +19,15 @@ public class UserMapper {
                 .build();
     }
 
+    public User toEntity(UserRequest request) {
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+        user.setRole(request.getRole());
+        return user;
+    }
+
     public List<UserResponse> toResponseList(List<User> users) {
         return users.stream()
                 .map(this::toResponse)
